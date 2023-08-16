@@ -1,6 +1,6 @@
 import math
 
-drive_size_in_gb = 465 # change me
+drive_size_in_gb = 4620 # change me
 drive_size_in_gigie_bytes = drive_size_in_gb / 1.074 # correlates with space the smesher is using
 num_units = math.floor(drive_size_in_gigie_bytes / 64)
 
