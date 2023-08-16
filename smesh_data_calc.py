@@ -1,6 +1,6 @@
 import math
 
-drive_size_in_gb = 4620 # change me
+drive_size_in_gb = 465 # change me
 drive_size_in_gigie_bytes = drive_size_in_gb / 1.074 # correlates with space the smesher is using
 num_units = math.floor(drive_size_in_gigie_bytes / 64)
 
@@ -10,24 +10,23 @@ print(f'num units: {num_units}')
 print(f'file count: {file_cnt}')
 
 # speed in MB/sec found here: https://reports.smesh.cloud/
-gpu_1_speed = 2.2 # rtx 3060 change me
+gpu_1_speed = 2.52 # rtx 3060 change me
 gpu_2_speed = 2.52 # rtx 3070 change me
-gpu_3_speed = 2.52 # rtx 3070 change me
+gpu_3_speed = 2.2 # rtx 3070 change me
 
 # this needs to be adjusted according to how many gpus you have
 gpu_list = [gpu_1_speed, gpu_2_speed, gpu_3_speed]
 
 # leave everything below as is
 
-sorted_gpu_list = sorted(gpu_list)
+total_speed = sum(gpu_list)
 
-total_speed = sum(sorted_gpu_list)
-
-gpu_files = [math.floor(file_cnt * (speed / total_speed)) for speed in sorted_gpu_list]
+gpu_files = [math.floor(file_cnt * (speed / total_speed)) for speed in gpu_list]
 
 # If there are remaining files, assign them to the fastest GPU
 remaining_files = file_cnt - sum(gpu_files)
-gpu_files[-1] += remaining_files
+fastest_gpu_index = gpu_list.index(max(gpu_list))
+gpu_files[fastest_gpu_index] += remaining_files
 
 if sum(gpu_files) != file_cnt:
     print("file count and gpu total file distribution do not match")
